@@ -25,7 +25,6 @@ public class FavoritesController {
     //delete favorite products
     @DeleteMapping("/product/{id}")
     public List<Product> DeleteFavoriteProductById( @PathVariable("id") Integer productId){
-
         return null;
     }
 

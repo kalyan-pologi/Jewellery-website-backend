@@ -31,7 +31,6 @@ public class ProductController {
         Product product = productServiceImpl.getProductById(productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-
     //post Product
     @PostMapping("/")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product createProduct){

@@ -21,7 +21,6 @@ public class ProductByCategoryController {
         List<Product> productList = productByCategoryService.getProductsByCategory(categoryName);
         return ResponseEntity.ok(productList);
     }
-
     //get product by id
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById( @PathVariable("category") String categoryName , @PathVariable("id") Integer productId ){
