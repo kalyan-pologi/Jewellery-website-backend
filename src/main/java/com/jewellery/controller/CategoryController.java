@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,7 +24,7 @@ public class CategoryController {
     @GetMapping("/")
     public ResponseEntity<List<Category>> getAllCategories(){
         List<Category> categoryList = categoryServiceImpl.getAllCategories();
-        return ResponseEntity.ok(categoryList);
+        return new ResponseEntity<>(categoryList, HttpStatus.OK);
     }
     //get category by id
     @GetMapping("/{id}")
@@ -34,7 +35,7 @@ public class CategoryController {
 
     //post category
     @PostMapping("/")
-    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category createCategory){
+    public ResponseEntity<Category> createCategory(@Valid @RequestParam("image") MultipartFile image, @RequestBody Category createCategory ){
         Category category = categoryServiceImpl.createCategory(createCategory);
         return new ResponseEntity<>(category,HttpStatus.CREATED);
     }

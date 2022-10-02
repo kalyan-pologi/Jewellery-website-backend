@@ -1,6 +1,7 @@
 package com.jewellery.service.Impl;
 
 //import com.jewellery.exceptions.ResourceNotFoundException;
+import com.jewellery.exceptions.ResourceNotFoundException;
 import com.jewellery.model.Category;
 import com.jewellery.repository.CategoryRepository;
 import com.jewellery.service.CategoryService;
@@ -23,22 +24,21 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getCategoryById(Integer categoryId) {
-        Category category = categoryRepository.findById(categoryId).get();
-//        Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
+        Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
         return category;
     }
 
     @Override
     public Category createCategory(Category createCategory) {
         categoryRepository.save(createCategory);
-        Category category = categoryRepository.findById(createCategory.getCategory_id()).get();
-        return category;
+//        Category category = categoryRepository.findById(createCategory.getCategory_id()).get();
+        return createCategory;
     }
 
     @Override
-    public Category updateCategoryById(Category updateCategory, Integer updateCategoryId) {
-        Category category = categoryRepository.findById(updateCategoryId).get();
-//        Category category = categoryRepository.findById(updateCategoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", updateCategoryId));
+    public Category updateCategoryById(Category updateCategory, Integer CategoryId) {
+
+        Category category = categoryRepository.findById(CategoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", CategoryId));
         category.setCategory_id(updateCategory.getCategory_id());
         category.setCategory_desc(updateCategory.getCategory_desc());
         category.setCategory_name(updateCategory.getCategory_name());
@@ -49,7 +49,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> deleteCategoryById(Integer categoryId) {
-        categoryRepository.deleteById(categoryId);
+        Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
+        categoryRepository.delete(category);
         List<Category> getCategoryList = categoryRepository.findAll();
         return getCategoryList;
     }

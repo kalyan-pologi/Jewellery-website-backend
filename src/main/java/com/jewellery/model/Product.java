@@ -1,6 +1,7 @@
 package com.jewellery.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +32,10 @@ public class Product {
     @NotNull(message = "product image is required !!")
     private String product_image;
 
+
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "category_name")
+    @JoinColumn(name = "category_id")
     private Category category;
 
 }

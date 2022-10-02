@@ -22,7 +22,8 @@ public class ProductController {
     @GetMapping("/")
     public ResponseEntity<List<Product>> getAllProducts(){
         List<Product> productList = productServiceImpl.getProducts();
-        return ResponseEntity.ok(productList);
+
+        return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
     //get product by id

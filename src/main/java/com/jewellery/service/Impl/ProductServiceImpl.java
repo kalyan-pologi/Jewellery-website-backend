@@ -1,5 +1,7 @@
 package com.jewellery.service.Impl;
 
+import com.jewellery.exceptions.ResourceNotFoundException;
+import com.jewellery.model.Category;
 import com.jewellery.model.Product;
 import com.jewellery.repository.ProductRepository;
 import com.jewellery.service.ProductService;
@@ -22,20 +24,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Integer productId) {
-        Product product = productRepository.findById(productId).get();
+        Product product = productRepository.findById(productId).orElseThrow( () -> new ResourceNotFoundException("product","id", productId));
         return product;
     }
 
     @Override
     public Product createProduct(Product createProduct) {
         productRepository.save(createProduct);
-        Product product = productRepository.findById(createProduct.getProduct_id()).get();
-        return product;
+//        Product product = productRepository.findById(createProduct.getProduct_id()).get();
+        return createProduct;
     }
 
     @Override
     public Product updateProductById(Product updateProduct, Integer productId) {
-        Product product = productRepository.findById(productId).get();
+        Product product = productRepository.findById(productId).orElseThrow( () -> new ResourceNotFoundException("product","id", productId));
         product.setProduct_id(updateProduct.getProduct_id());
         product.setProduct_name(updateProduct.getProduct_name());
         product.setProduct_desc(updateProduct.getProduct_desc());
@@ -46,7 +48,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public  List<Product> deleteProductById(Integer productId) {
-        productRepository.deleteById(productId);
+        Product product = productRepository.findById(productId).orElseThrow( () -> new ResourceNotFoundException("product","id", productId));
+        productRepository.delete(product);
         List<Product> productList = productRepository.findAll();
         return productList;
     }

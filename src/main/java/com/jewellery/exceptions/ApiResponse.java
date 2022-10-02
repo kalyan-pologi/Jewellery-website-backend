@@ -1,5 +1,6 @@
 package com.jewellery.exceptions;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,15 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 public class ApiResponse {
 
-
-    public ApiResponse(String string, boolean b) {
-        // TODO Auto-generated constructor stub
-    }
     private String message;
     private boolean success;
+
 }
 
 
