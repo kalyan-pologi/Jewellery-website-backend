@@ -1,6 +1,8 @@
 package com.jewellery.controller;
 
 import com.jewellery.config.*;
+import com.jewellery.model.User;
+import com.jewellery.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,9 @@ public class AuthController{
     private CustomUserDetailServiceImpl customUserDetailService;
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserServiceImpl userServiceImpl;
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest jwtAuthRequest) throws Exception {
         try{
@@ -35,5 +40,10 @@ public class AuthController{
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setJwt(jwt);
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
+    }
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        User registeredUser = this.userServiceImpl.registerNewUser(user);
+        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 }

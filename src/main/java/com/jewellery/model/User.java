@@ -23,7 +23,7 @@ public class User {
     private int user_id;
 
     @NotBlank(message = "user name is required !!")
-    @Size(min = 4,max = 20,message = "min 4 and max 20 characters are allowed !!")
+    @Size(min = 3,max = 20,message = "min 3 and max 20 characters are allowed !!")
     private String user_name;
 
     @NotNull
@@ -32,6 +32,6 @@ public class User {
     private String user_email;
 
     @NotNull(message = "password is required !!")
-    @Size(min = 4,max = 20,message = "min 4 and max 20 characters are allowed !!")
+    @Size(min = 3,max = 250,message = "min 3 and max 250 characters are allowed !!")
     private String user_password;
 }
