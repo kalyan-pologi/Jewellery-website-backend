@@ -16,10 +16,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
-
     @Autowired
     private CategoryServiceImpl categoryServiceImpl;
-
     //get all categories
     @GetMapping("/")
     public ResponseEntity<List<Category>> getAllCategories(){
@@ -32,35 +30,28 @@ public class CategoryController {
         Category category = categoryServiceImpl.getCategoryById(categoryId);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
-
     //post category
     @PostMapping("/")
     public ResponseEntity<Category> createCategory(@Valid @RequestParam("image") MultipartFile image, @RequestBody Category createCategory ){
         Category category = categoryServiceImpl.createCategory(createCategory);
         return new ResponseEntity<>(category,HttpStatus.CREATED);
     }
-
     //update category by id
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategoryById(@Valid @RequestBody Category updateCategory , @PathVariable("id") Integer categoryId){
         Category category = categoryServiceImpl.updateCategoryById(updateCategory,categoryId);
         return new ResponseEntity<>(category,HttpStatus.OK);
     }
-
-
     //delete category by id
 //    @DeleteMapping("/{id}")
 //    public List<Category> deleteCategoryById( @PathVariable("id") Integer categoryId){
 //        List<Category> category = categoryServiceImpl.deleteCategoryById(categoryId);
 //        return category;
 //    }
-
     //delete category by id
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteCategoryById( @PathVariable("id") Integer categoryId){
         List<Category> category = categoryServiceImpl.deleteCategoryById(categoryId);
         return new ResponseEntity<>(new ApiResponse("category deleted Successfully", true), HttpStatus.OK);
     }
-
-
 }

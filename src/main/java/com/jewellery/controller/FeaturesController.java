@@ -21,54 +21,42 @@ import java.util.List;
 
 @RestController
 public class FeaturesController {
-
     @Autowired
     private FeaturesServiceImpl featuresServiceImpl;
-
     @Autowired
     private CategoryServiceImpl categoryServiceImpl;
-
     @GetMapping("/search/{keyword}")
     public ResponseEntity<List<Product>> search(@PathVariable("keyword") String keyword){
      List<Product> products = featuresServiceImpl.search(keyword);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
-
-//    @Value("${project.image}")
-//    private String path;
-//    @PostMapping("/upload")
-//    public ResponseEntity<FileResponse> fileUpload(
-//            @RequestParam("image")MultipartFile image
-//            ) throws IOException {
-//        String fileName = this.featuresServiceImpl.uploadImage(path,image);
-//        return new ResponseEntity<>(new FileResponse(fileName,"image is successfully added"),HttpStatus.OK);
-//    }
-//
-//    // image upload
-//    @PostMapping("/upload/{categoryId}")
-//    public ResponseEntity<Category> uploadPostImage(@RequestParam("image") MultipartFile image,
-//                                                    @PathVariable Integer categoryId) throws IOException {
-//
-//        Category category = this.categoryServiceImpl.getCategoryById(categoryId);
-//
-//        String fileName = this.featuresServiceImpl.uploadImage(path, image);
-//        category.setCategory_name(fileName);
-//        Category updateCategory = this.categoryServiceImpl.updateCategoryById(category, categoryId);
-//        return new ResponseEntity<>(updateCategory, HttpStatus.OK);
-//
-//
-//    }
-//
-//    //method to serve files
-//    @GetMapping(value = "/upload/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
-//    public void downloadImage(
-//            @PathVariable("imageName") String imageName,
-//            HttpServletResponse response
-//    ) throws IOException {
-//
-//        InputStream resource = this.featuresServiceImpl.getResource(path, imageName);
-//        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-//        StreamUtils.copy(resource,response.getOutputStream())   ;
-//
-//    }
+    @Value("${project.image}")
+    private String path;
+    @PostMapping("/upload")
+    public ResponseEntity<FileResponse> fileUpload(
+            @RequestParam("image")MultipartFile image
+            ) throws IOException {
+        String fileName = this.featuresServiceImpl.uploadImage(path,image);
+        return new ResponseEntity<>(new FileResponse(fileName,"image is successfully added"),HttpStatus.OK);
+    }
+    // image upload
+    @PostMapping("/upload/{categoryId}")
+    public ResponseEntity<Category> uploadPostImage(@RequestParam("image") MultipartFile image,
+                                                    @PathVariable Integer categoryId) throws IOException {
+        Category category = this.categoryServiceImpl.getCategoryById(categoryId);
+        String fileName = this.featuresServiceImpl.uploadImage(path, image);
+        category.setCategory_name(fileName);
+        Category updateCategory = this.categoryServiceImpl.updateCategoryById(category, categoryId);
+        return new ResponseEntity<>(updateCategory, HttpStatus.OK);
+    }
+    //method to serve files
+    @GetMapping(value = "/upload/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadImage(
+            @PathVariable("imageName") String imageName,
+            HttpServletResponse response
+    ) throws IOException {
+        InputStream resource = this.featuresServiceImpl.getResource(path, imageName);
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(resource,response.getOutputStream())   ;
+    }
 }

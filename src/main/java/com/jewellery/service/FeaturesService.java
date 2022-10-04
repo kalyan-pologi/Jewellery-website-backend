@@ -11,8 +11,6 @@ import java.util.List;
 public interface FeaturesService {
 
    public List<Product> search(String keyword);
-
-//   String uploadImage (String path, MultipartFile file) throws IOException;
-//
-//   InputStream getResource (String path, String fileName) throws FileNotFoundException;
+   String uploadImage (String path, MultipartFile file) throws IOException;
+   InputStream getResource (String path, String fileName) throws FileNotFoundException;
 }

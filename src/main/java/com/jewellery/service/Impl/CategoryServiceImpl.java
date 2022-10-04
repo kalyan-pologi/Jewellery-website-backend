@@ -1,6 +1,5 @@
 package com.jewellery.service.Impl;
 
-//import com.jewellery.exceptions.ResourceNotFoundException;
 import com.jewellery.exceptions.ResourceNotFoundException;
 import com.jewellery.model.Category;
 import com.jewellery.repository.CategoryRepository;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -21,32 +19,26 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> getCategoryList = categoryRepository.findAll();
         return getCategoryList;
     }
-
     @Override
     public Category getCategoryById(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
         return category;
     }
-
     @Override
     public Category createCategory(Category createCategory) {
         categoryRepository.save(createCategory);
 //        Category category = categoryRepository.findById(createCategory.getCategory_id()).get();
         return createCategory;
     }
-
     @Override
     public Category updateCategoryById(Category updateCategory, Integer CategoryId) {
-
         Category category = categoryRepository.findById(CategoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", CategoryId));
         category.setCategory_id(updateCategory.getCategory_id());
         category.setCategory_desc(updateCategory.getCategory_desc());
         category.setCategory_name(updateCategory.getCategory_name());
         category.setCategory_image(updateCategory.getCategory_image());
-
         return category;
     }
-
     @Override
     public List<Category> deleteCategoryById(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
@@ -54,5 +46,4 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> getCategoryList = categoryRepository.findAll();
         return getCategoryList;
     }
-
 }

@@ -9,8 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileResponse {
-
     private String fileName;
     private String message;
-
 }

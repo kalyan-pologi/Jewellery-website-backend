@@ -16,9 +16,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Product {
-
     @Id
     private int product_id;
 
@@ -32,10 +30,8 @@ public class Product {
     @NotNull(message = "product image is required !!")
     private String product_image;
 
-
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
 }

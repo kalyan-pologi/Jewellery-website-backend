@@ -13,9 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/{category}/product")
 public class ProductByCategoryController {
-
     private ProductByCategoryServiceImpl productByCategoryService;
-
     @GetMapping("/")
     public ResponseEntity<List<Product>> getAllProductsByCategory(@PathVariable("category") String categoryName){
         List<Product> productList = productByCategoryService.getProductsByCategory(categoryName);
@@ -27,21 +25,18 @@ public class ProductByCategoryController {
         Product product = productByCategoryService.getProductByIdByCategory(categoryName , productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-
     //post Product
     @PostMapping("/")
     public ResponseEntity<Product> createProduct(@Valid @PathVariable("category") String categoryName , @RequestBody Product createProduct){
         Product product = productByCategoryService.createProductByCategory(categoryName , createProduct);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
-
     //update Product by id
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProductById(@Valid @PathVariable("category") String categoryName , @RequestBody Product updateProduct , @PathVariable("id") Integer productId){
         Product product = productByCategoryService.updateProductByIdByCategory(categoryName , updateProduct,productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-
     //delete Product by id
     @DeleteMapping("/{id}")
     public  ResponseEntity<ApiResponse> deleteProductById( @PathVariable("category") String categoryName , @PathVariable("id") Integer deleteId){

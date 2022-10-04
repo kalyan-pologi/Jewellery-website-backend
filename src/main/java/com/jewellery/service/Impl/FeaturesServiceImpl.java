@@ -24,32 +24,28 @@ public class FeaturesServiceImpl implements FeaturesService {
         List<Product> products = productRepository.findByProductNameContaining(keyword);
         return products;
     }
-
-
-//    @Override
-//    public String uploadImage(String path, MultipartFile file) throws IOException {
-//
-//        //file name
-//        String name = file.getOriginalFilename();
-//        //generate random name
-//        String randomID = UUID.randomUUID().toString();
-//        String fileName = randomID.concat(name.substring(name.lastIndexOf('.')));
-//        //full path
-//        String filePath = path+ File.separator + fileName;
-//        //create folder if not created
-//        File f = new File(path);
-//        if(!f.exists()){
-//            f.mkdir();
-//        }
-//        //copy file
-//        Files.copy(file.getInputStream(), Paths.get(filePath));
-//        return fileName;
-//    }
-//
-//    @Override
-//    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
-//        String fullPath = path + File.separator + fileName;
-//        InputStream is = new FileInputStream(fullPath);
-//        return is;
-//    }
+    @Override
+    public String uploadImage(String path, MultipartFile file) throws IOException {
+        //file name
+        String name = file.getOriginalFilename();
+        //generate random name
+        String randomID = UUID.randomUUID().toString();
+        String fileName = randomID.concat(name.substring(name.lastIndexOf('.')));
+        //full path
+        String filePath = path+ File.separator + fileName;
+        //create folder if not created
+        File f = new File(path);
+        if(!f.exists()){
+            f.mkdir();
+        }
+        //copy file
+        Files.copy(file.getInputStream(), Paths.get(filePath));
+        return fileName;
+    }
+    @Override
+    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+        String fullPath = path + File.separator + fileName;
+        InputStream is = new FileInputStream(fullPath);
+        return is;
+    }
 }

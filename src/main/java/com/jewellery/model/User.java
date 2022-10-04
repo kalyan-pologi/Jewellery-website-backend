@@ -16,13 +16,11 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int user_id;
-
 
     @NotBlank(message = "user name is required !!")
     @Size(min = 4,max = 20,message = "min 4 and max 20 characters are allowed !!")
@@ -36,6 +34,4 @@ public class User {
     @NotNull(message = "password is required !!")
     @Size(min = 4,max = 20,message = "min 4 and max 20 characters are allowed !!")
     private String user_password;
-
-
 }
