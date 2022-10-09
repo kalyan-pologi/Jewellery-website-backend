@@ -1,4 +1,4 @@
-package com.jewellery.config;
+package com.jewellery.Jwt;
 
 
 import lombok.*;
@@ -9,6 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtAuthRequest {
-    private String username;
-    private String password;
+    private String user_email;
+    private String user_password;
 }

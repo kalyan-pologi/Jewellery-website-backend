@@ -1,5 +1,7 @@
 package com.jewellery.config;
 
+import com.jewellery.Jwt.JwtAuthenticationEntryPoint;
+import com.jewellery.Jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -75,4 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    
 }

@@ -34,4 +34,6 @@ public class User {
     @NotNull(message = "password is required !!")
     @Size(min = 3,max = 250,message = "min 3 and max 250 characters are allowed !!")
     private String user_password;
+
+
 }

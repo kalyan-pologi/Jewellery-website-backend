@@ -1,6 +1,8 @@
-package com.jewellery.config;
+package com.jewellery.Jwt;
 
+import com.jewellery.model.User;
 import lombok.*;
+
 
 @Data
 @Getter
@@ -9,4 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 public class JwtAuthResponse {
     private String jwt;
+    private String user_name;
+
 }

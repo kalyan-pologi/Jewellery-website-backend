@@ -1,4 +1,4 @@
-package com.jewellery.config;
+package com.jewellery.Jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
