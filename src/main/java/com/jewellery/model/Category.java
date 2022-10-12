@@ -30,7 +30,7 @@ public class Category {
     @NotNull(message = "category desc is required !!")
     private String category_desc;
 
-    @NotNull(message = "category image is required !!")
+//    @NotNull(message = "category image is required !!")
     private String category_image;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)

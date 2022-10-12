@@ -4,7 +4,7 @@ import com.jewellery.model.Product;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("/favorite")
 public class FavoritesController {

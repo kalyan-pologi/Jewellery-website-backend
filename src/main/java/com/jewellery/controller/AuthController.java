@@ -11,9 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -28,14 +31,17 @@ public class AuthController{
     @Autowired
     private UserServiceImpl userServiceImpl;
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest jwtAuthRequest) throws Exception {
+    public ResponseEntity<JwtAuthResponse> createToken(@Valid @RequestBody JwtAuthRequest jwtAuthRequest) throws Exception {
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtAuthRequest.getUser_email(),jwtAuthRequest.getUser_password()));
         }
         catch (BadCredentialsException e) {
-            throw new Exception("incorrect username or password", e);
+            throw new Exception("username or password Incorrect");
         }
-        UserDetails userDetails = customUserDetailService.loadUserByUsername(jwtAuthRequest.getUser_email()); ;
+        catch (InternalAuthenticationServiceException e){
+            throw new Exception("Email id not found, please register!!");
+        }
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(jwtAuthRequest.getUser_email());
         String jwt = jwtTokenHelper.generateToken(userDetails);
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setJwt(jwt);
@@ -43,7 +49,7 @@ public class AuthController{
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
+    public ResponseEntity<User> registerUser(@Valid  @RequestBody User user) throws Exception {
         User registeredUser = this.userServiceImpl.registerNewUser(user);
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }

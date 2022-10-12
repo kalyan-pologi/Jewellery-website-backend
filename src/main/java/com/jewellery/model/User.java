@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name="USER")
@@ -22,17 +19,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int user_id;
 
+
+    @Size(min = 4,max = 20,message = "min 4 and max 20 characters are allowed !!")
     @NotBlank(message = "user name is required !!")
-    @Size(min = 3,max = 20,message = "min 3 and max 20 characters are allowed !!")
     private String user_name;
 
-    @NotNull
+
     @Column(unique = true)
-    @Email(message = "Please enter valid Email address !!")
+    @NotEmpty(message = "Email cannot be empty")
+    @Email(message = "Please enter valid Email address !!", regexp =  "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String user_email;
 
-    @NotNull(message = "password is required !!")
-    @Size(min = 3,max = 250,message = "min 3 and max 250 characters are allowed !!")
+    @NotEmpty(message = "password is required !!")
+    @Size(min = 4,max = 250,message = "min 4 and max 10 characters are allowed !!")
     private String user_password;
 
 

@@ -27,7 +27,7 @@ public class Product {
     @NotNull(message = "product desc is required !!")
     private String product_desc;
 
-    @NotNull(message = "product image is required !!")
+//    @NotNull(message = "product image is required !!")
     private String product_image;
 
     @JsonIgnore

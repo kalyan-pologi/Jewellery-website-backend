@@ -2,6 +2,7 @@ package com.jewellery.exceptions;
 
 
 import lombok.*;
+import org.springframework.validation.Errors;
 
 @Data
 @Getter
@@ -11,4 +12,6 @@ import lombok.*;
 public class FileResponse {
     private String fileName;
     private String message;
+
+
 }

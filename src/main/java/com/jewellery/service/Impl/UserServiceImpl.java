@@ -1,10 +1,12 @@
 package com.jewellery.service.Impl;
 
+import com.jewellery.config.CustomUserDetailServiceImpl;
 import com.jewellery.exceptions.ResourceNotFoundException;
 import com.jewellery.model.User;
 import com.jewellery.repository.UserRepository;
 import com.jewellery.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CustomUserDetailServiceImpl customUserDetailService;
     @Override
     public List<User> getAllUsers() {
         List<User> users = this.userRepository.findAll();
@@ -53,11 +57,17 @@ public class UserServiceImpl implements UserService {
         this.userRepository.delete(user);
     }
     @Override
-    public User registerNewUser(User user) {
+    public User registerNewUser(User user) throws Exception {
+            UserDetails userDetails = customUserDetailService.loadUserByUsername(user.getUser_email());
+            if(userDetails.getUsername().equals(user.getUser_email())){
+                 throw new Exception("user already exits...please login");
+            }
+
         // encoded the password
         user.setUser_password(this.passwordEncoder.encode(user.getUser_password()));
         // add roles if needed
         User newUser = this.userRepository.save(user);
+
         return newUser;
     }
 }
