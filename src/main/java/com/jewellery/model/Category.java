@@ -1,9 +1,9 @@
 package com.jewellery.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,10 +15,11 @@ import java.util.List;
 
 @Entity
 @Table(name="CATEGORY")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "category_id")
 public class Category {
     @Id
     private int category_id;
@@ -33,6 +34,10 @@ public class Category {
 //    @NotNull(message = "category image is required !!")
     private String category_image;
 
+
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+//    @JsonManagedReference(value = "product-category")
     private List<Product> products = new ArrayList<>();
+
 }

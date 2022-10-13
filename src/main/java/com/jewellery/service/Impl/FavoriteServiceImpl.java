@@ -9,16 +9,5 @@ import java.util.List;
 
 @Service
 public class FavoriteServiceImpl implements FavoriteService {
-    @Override
-    public List<Product> getAllFavoriteProducts() {
-        return null;
-    }
-    @Override
-    public Product getFavoriteProductById(Integer productId) {
-        return null;
-    }
-    @Override
-    public List<Product> DeleteFavoriteProductById() {
-        return null;
-    }
+
 }

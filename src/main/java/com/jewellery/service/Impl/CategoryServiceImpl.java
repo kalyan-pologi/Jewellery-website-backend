@@ -2,7 +2,9 @@ package com.jewellery.service.Impl;
 
 import com.jewellery.exceptions.ResourceNotFoundException;
 import com.jewellery.model.Category;
+import com.jewellery.model.Product;
 import com.jewellery.repository.CategoryRepository;
+import com.jewellery.repository.ProductRepository;
 import com.jewellery.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public List<Category> getAllCategories() {
@@ -46,4 +51,14 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> getCategoryList = categoryRepository.findAll();
         return getCategoryList;
     }
+
+    @Override
+    public List<Product> getAllProductsByCategory(int categoryId) {
+        Category category = this.categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "category id", categoryId));
+        List<Product> products = this.productRepository.findByCategory(category);
+        return products;
+    }
+
+
 }

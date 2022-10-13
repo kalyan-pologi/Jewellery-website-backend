@@ -1,6 +1,7 @@
 package com.jewellery.service;
 
 import com.jewellery.model.Category;
+import com.jewellery.model.Product;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,4 +25,7 @@ public interface CategoryService{
 
     //delete category by id
     public List<Category> deleteCategoryById(Integer category_id);
+
+    List<Product> getAllProductsByCategory(int categoryId);
+
 }

@@ -1,6 +1,8 @@
 package com.jewellery.Jwt;
 
 import com.jewellery.config.CustomUserDetailServiceImpl;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +30,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String username = null;
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer")){
             jwt = authorizationHeader.substring(7);
-            username = jwtTokenHelper.getUsernameFromToken(jwt);
+//            username = jwtTokenHelper.getUsernameFromToken(jwt);
+            try {
+                username = this.jwtTokenHelper.getUsernameFromToken(jwt);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Unable to get Jwt token");
+            } catch (ExpiredJwtException e) {
+                System.out.println("Jwt token has expired");
+            } catch (MalformedJwtException e) {
+                System.out.println("invalid jwt");
+            }
+        }
+        else {
+            System.out.println("Jwt token does not begin with Bearer");
         }
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.customUserDetailService.loadUserByUsername(username);
@@ -36,8 +50,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }else {
+                System.out.println("Invalid jwt token");
             }
+        } else {
+            System.out.println("username is null or context is not null");
         }
+
         filterChain.doFilter(request,response);
     }
 }

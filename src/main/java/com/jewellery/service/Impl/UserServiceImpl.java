@@ -58,10 +58,10 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public User registerNewUser(User user) throws Exception {
-            UserDetails userDetails = customUserDetailService.loadUserByUsername(user.getUser_email());
-            if(userDetails.getUsername().equals(user.getUser_email())){
-                 throw new Exception("user already exits...please login");
-            }
+//            UserDetails userDetails = customUserDetailService.loadUserByUsername(user.getUser_email());
+//            if(userDetails.getUsername().equals(user.getUser_email())){
+//                 throw new Exception("user already exits...please login");
+//            }
 
         // encoded the password
         user.setUser_password(this.passwordEncoder.encode(user.getUser_password()));

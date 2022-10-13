@@ -1,24 +1,22 @@
 package com.jewellery.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-@Entity
-@Table(name="USER")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "user_id")
-public class User {
-
+public class UserDto {
     @Id
     private int user_id;
 
@@ -36,11 +34,4 @@ public class User {
     @NotEmpty(message = "password is required !!")
     @Size(min = 4,max = 250,message = "min 4 and max 10 characters are allowed !!")
     private String user_password;
-
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-
-//    @JsonManagedReference(value = "product-user")
-    private List<Product> products = new ArrayList<>();
-
 }

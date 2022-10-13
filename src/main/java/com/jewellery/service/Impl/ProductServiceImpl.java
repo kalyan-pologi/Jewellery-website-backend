@@ -1,9 +1,13 @@
 package com.jewellery.service.Impl;
 
 import com.jewellery.exceptions.ResourceNotFoundException;
+import com.jewellery.model.Category;
 import com.jewellery.model.Product;
+import com.jewellery.model.ProductDto;
+import com.jewellery.repository.CategoryRepository;
 import com.jewellery.repository.ProductRepository;
 import com.jewellery.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,12 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
     @Override
     public List<Product> getProducts() {
         List<Product> productList = productRepository.findAll();
@@ -23,10 +33,11 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
     @Override
-    public Product createProduct(Product createProduct) {
-        productRepository.save(createProduct);
-//        Product product = productRepository.findById(createProduct.getProduct_id()).get();
-        return createProduct;
+    public ProductDto createProduct(Integer categoryId , Product createProduct) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
+        createProduct.setCategory(category);
+        Product product = productRepository.save(createProduct);
+        return this.modelMapper.map(product,ProductDto.class);
     }
     @Override
     public Product updateProductById(Product updateProduct, Integer productId) {
@@ -44,4 +55,16 @@ public class ProductServiceImpl implements ProductService {
         List<Product> productList = productRepository.findAll();
         return productList;
     }
+
+    @Override
+    public List<Product> getProductsByCategory(Integer categoryId) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getProductsByUser(Integer userId) {
+        return null;
+    }
+
+
 }
