@@ -2,14 +2,18 @@ package com.jewellery.service.Impl;
 
 import com.jewellery.exceptions.ResourceNotFoundException;
 import com.jewellery.model.Category;
+import com.jewellery.model.CategoryDto;
 import com.jewellery.model.Product;
+import com.jewellery.model.ProductDto;
 import com.jewellery.repository.CategoryRepository;
 import com.jewellery.repository.ProductRepository;
 import com.jewellery.service.CategoryService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -19,46 +23,45 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<Category> getAllCategories() {
+    public List<CategoryDto> getAllCategories() {
         List<Category> getCategoryList = categoryRepository.findAll();
-        return getCategoryList;
+        List<CategoryDto> catDtos = getCategoryList.stream().map((cat) -> this.modelMapper.map(cat, CategoryDto.class))
+                .collect(Collectors.toList());
+        return catDtos;
     }
     @Override
-    public Category getCategoryById(Integer categoryId) {
+    public CategoryDto getCategoryById(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
-        return category;
+        return this.modelMapper.map(category,CategoryDto.class);
     }
     @Override
-    public Category createCategory(Category createCategory) {
-        categoryRepository.save(createCategory);
-//        Category category = categoryRepository.findById(createCategory.getCategory_id()).get();
-        return createCategory;
+    public CategoryDto createCategory(CategoryDto createCategory) {
+        Category cat = this.modelMapper.map(createCategory, Category.class);
+        Category addedCat = this.categoryRepository.save(cat);
+        return this.modelMapper.map(addedCat, CategoryDto.class);
     }
     @Override
-    public Category updateCategoryById(Category updateCategory, Integer CategoryId) {
+    public CategoryDto updateCategoryById(CategoryDto updateCategory, Integer CategoryId) {
         Category category = categoryRepository.findById(CategoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", CategoryId));
         category.setCategory_id(updateCategory.getCategory_id());
         category.setCategory_desc(updateCategory.getCategory_desc());
         category.setCategory_name(updateCategory.getCategory_name());
         category.setCategory_image(updateCategory.getCategory_image());
-        return category;
+        Category updatedcat = this.categoryRepository.save(category);
+        return this.modelMapper.map(updatedcat,CategoryDto.class);
     }
     @Override
-    public List<Category> deleteCategoryById(Integer categoryId) {
+    public List<CategoryDto> deleteCategoryById(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
         categoryRepository.delete(category);
         List<Category> getCategoryList = categoryRepository.findAll();
-        return getCategoryList;
+        List<CategoryDto> catDtos = getCategoryList.stream().map((cat) -> this.modelMapper.map(cat, CategoryDto.class))
+                .collect(Collectors.toList());
+        return catDtos;
     }
-
-    @Override
-    public List<Product> getAllProductsByCategory(int categoryId) {
-        Category category = this.categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Category", "category id", categoryId));
-        List<Product> products = this.productRepository.findByCategory(category);
-        return products;
-    }
-
 
 }

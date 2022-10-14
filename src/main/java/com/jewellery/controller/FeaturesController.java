@@ -2,6 +2,7 @@ package com.jewellery.controller;
 
 import com.jewellery.exceptions.FileResponse;
 import com.jewellery.model.Category;
+import com.jewellery.model.CategoryDto;
 import com.jewellery.model.Product;
 import com.jewellery.service.Impl.CategoryServiceImpl;
 import com.jewellery.service.Impl.FeaturesServiceImpl;
@@ -42,12 +43,12 @@ public class FeaturesController {
     }
     // image upload
     @PostMapping("/upload/{categoryId}")
-    public ResponseEntity<Category> uploadPostImage(@RequestParam("image") MultipartFile image,
-                                                    @PathVariable Integer categoryId) throws IOException {
-        Category category = this.categoryServiceImpl.getCategoryById(categoryId);
+    public ResponseEntity<CategoryDto> uploadPostImage(@RequestParam("image") MultipartFile image,
+                                                       @PathVariable Integer categoryId) throws IOException {
+        CategoryDto category = this.categoryServiceImpl.getCategoryById(categoryId);
         String fileName = this.featuresServiceImpl.uploadImage(path, image);
         category.setCategory_name(fileName);
-        Category updateCategory = this.categoryServiceImpl.updateCategoryById(category, categoryId);
+        CategoryDto updateCategory = this.categoryServiceImpl.updateCategoryById(category, categoryId);
         return new ResponseEntity<>(updateCategory, HttpStatus.OK);
     }
     //method to serve files

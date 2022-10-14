@@ -18,49 +18,49 @@ public class ProductController {
     private ProductServiceImpl productServiceImpl;
     //get all Products
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getAllProducts(){
-        List<Product> productList = productServiceImpl.getProducts();
+    public ResponseEntity<List<ProductDto>> getAllProducts(){
+        List<ProductDto> productList = productServiceImpl.getProducts();
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
     //get product by id
     @GetMapping("/products/{id}")
-    public ResponseEntity<Product> getProductById(  @PathVariable("id") Integer productId){
-        Product product = productServiceImpl.getProductById(productId);
+    public ResponseEntity<ProductDto> getProductById(  @PathVariable("id") Integer productId){
+        ProductDto product = productServiceImpl.getProductById(productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
     //post Product
     @PostMapping("/{categoryId}/products")
-    public ResponseEntity<ProductDto> createProduct(@Valid @PathVariable Integer categoryId , @RequestBody Product createProduct){
+    public ResponseEntity<ProductDto> createProduct(@Valid @PathVariable Integer categoryId , @RequestBody ProductDto createProduct){
         ProductDto product = productServiceImpl.createProduct(categoryId,createProduct);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
     //update Product by id
     @PutMapping("/products/{id}")
-    public ResponseEntity<Product> updateProductById(@Valid@RequestBody Product updateProduct , @PathVariable("id") Integer productId){
-        Product product = productServiceImpl.updateProductById(updateProduct,productId);
+    public ResponseEntity<ProductDto> updateProductById(@Valid@RequestBody ProductDto updateProduct , @PathVariable("id") Integer productId){
+        ProductDto product = productServiceImpl.updateProductById(updateProduct,productId);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
     //delete Product by id
     @DeleteMapping("/products/{id}")
     public  ResponseEntity<ApiResponse> deleteProductById( @PathVariable("id") Integer deleteId){
-        List<Product> productList = productServiceImpl.deleteProductById(deleteId);
+        List<ProductDto> productList = productServiceImpl.deleteProductById(deleteId);
         return new ResponseEntity<>(new ApiResponse("product deleted Successfully", true), HttpStatus.OK);
     }
 
 
 
     @GetMapping("/category/{categoryId}/products")
-    public ResponseEntity<List<Product>> getProductsByCategory(@PathVariable Integer categoryId) {
-        List<Product> products = this.productServiceImpl.getProductsByCategory(categoryId);
-        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    public ResponseEntity<List<ProductDto>> getProductsByCategory(@PathVariable Integer categoryId) {
+        List<ProductDto> products = this.productServiceImpl.getProductsByCategory(categoryId);
+        return new ResponseEntity<List<ProductDto>>(products, HttpStatus.OK);
 
     }
 
 
     @GetMapping("/user/{userId}/products")
-    public ResponseEntity<List<Product>> getProductsByUser(@PathVariable Integer userId) {
-        List<Product> products = this.productServiceImpl.getProductsByUser(userId);
-        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    public ResponseEntity<List<ProductDto>> getProductsByUser(@PathVariable Integer userId) {
+        List<ProductDto> products = this.productServiceImpl.getProductsByUser(userId);
+        return new ResponseEntity<List<ProductDto>>(products, HttpStatus.OK);
 
     }
 }

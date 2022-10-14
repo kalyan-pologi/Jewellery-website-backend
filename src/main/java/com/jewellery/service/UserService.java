@@ -1,14 +1,15 @@
 package com.jewellery.service;
 
 import com.jewellery.model.User;
+import com.jewellery.model.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    User registerNewUser(User user) throws Exception;
-    User createUser(User user);
-    User updateUser(User user, Integer userId);
-    User getUserById(Integer userId);
-    List<User> getAllUsers();
+    UserDto registerNewUser(UserDto user) throws Exception;
+    UserDto createUser(UserDto user);
+    UserDto updateUser(UserDto user, Integer userId);
+    UserDto getUserById(Integer userId);
+    List<UserDto> getAllUsers();
     void deleteUser(Integer userId);
 }

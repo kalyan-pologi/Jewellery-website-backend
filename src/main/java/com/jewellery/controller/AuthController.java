@@ -5,6 +5,7 @@ import com.jewellery.Jwt.JwtAuthResponse;
 import com.jewellery.Jwt.JwtTokenHelper;
 import com.jewellery.config.*;
 import com.jewellery.model.User;
+import com.jewellery.model.UserDto;
 import com.jewellery.service.Impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,8 +50,8 @@ public class AuthController{
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@Valid  @RequestBody User user) throws Exception {
-        User registeredUser = this.userServiceImpl.registerNewUser(user);
+    public ResponseEntity<UserDto> registerUser(@Valid  @RequestBody UserDto user) throws Exception {
+        UserDto registeredUser = this.userServiceImpl.registerNewUser(user);
         return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
     }
 }

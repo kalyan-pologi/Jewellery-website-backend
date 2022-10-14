@@ -9,21 +9,21 @@ import java.util.List;
 public interface ProductService {
 
     //get all Products
-    public List<Product> getProducts();
+    public List<ProductDto> getProducts();
 
     //get Product by id
-    public Product getProductById(Integer productId);
+    public ProductDto getProductById(Integer productId);
 
     //post Product
-    public ProductDto createProduct(Integer categoryId , Product createProduct);
+    public ProductDto createProduct(Integer categoryId , ProductDto createProduct);
 
     //update Product by id
-    public Product updateProductById(Product updateProduct , Integer productId);
+    public ProductDto updateProductById(ProductDto updateProduct , Integer productId);
 
     //delete Product by id
-    public  List<Product> deleteProductById(Integer productId);
+    public  List<ProductDto> deleteProductById(Integer productId);
 
-    List<Product> getProductsByCategory(Integer categoryId);
+    List<ProductDto> getProductsByCategory(Integer categoryId);
 
-    List<Product> getProductsByUser(Integer userId);
+    List<ProductDto> getProductsByUser(Integer userId);
 }
