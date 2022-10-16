@@ -47,6 +47,7 @@ public class AuthController{
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setJwt(jwt);
         jwtAuthResponse.setUser_name(userDetails.getUsername());
+
         return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
     @PostMapping("/register")

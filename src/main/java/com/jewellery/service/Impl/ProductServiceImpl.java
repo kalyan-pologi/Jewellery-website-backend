@@ -79,14 +79,5 @@ public class ProductServiceImpl implements ProductService {
         return productDtos;
     }
 
-    @Override
-    public List<ProductDto> getProductsByUser(Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow( () -> new ResourceNotFoundException("user","id", userId));
-        List<Product> products = productRepository.findByUser(user);
-        List<ProductDto> productDtos = products.stream().map((post) -> this.modelMapper.map(post, ProductDto.class))
-                .collect(Collectors.toList());
-        return productDtos;
-    }
-
 
 }

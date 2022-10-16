@@ -25,5 +25,4 @@ public interface ProductService {
 
     List<ProductDto> getProductsByCategory(Integer categoryId);
 
-    List<ProductDto> getProductsByUser(Integer userId);
 }

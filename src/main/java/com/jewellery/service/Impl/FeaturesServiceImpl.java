@@ -19,11 +19,11 @@ public class FeaturesServiceImpl implements FeaturesService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Override
-    public List<Product> search(String keyword) {
-        List<Product> products = productRepository.findByProductNameContaining(keyword);
-        return products;
-    }
+//    @Override
+//    public List<Product> search(String keyword) {
+//        List<Product> products = productRepository.findByProductNameContaining(keyword);
+//        return products;
+//    }
     @Override
     public String uploadImage(String path, MultipartFile file) throws IOException {
         //file name

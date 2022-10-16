@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,5 +33,5 @@ public class ProductDto {
 
     private CategoryDto category;
 
-    private UserDto user;
+    private List<UserDto> user;
 }

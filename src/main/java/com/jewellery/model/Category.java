@@ -22,16 +22,19 @@ import java.util.List;
 //    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "category_id")
 public class Category {
     @Id
+    @Column(name="category_id")
     private int category_id;
-
     @NotBlank(message = "category name field is required !!")
     @Size(min = 4,max = 20,message = "min 4 and max 20 characters are allowed !!")
+    @Column(name="category_name")
     private String category_name;
 
     @NotNull(message = "category desc is required !!")
+    @Column(name="category_desc")
     private String category_desc;
 
 //    @NotNull(message = "category image is required !!")
+@Column(name="category_image")
     private String category_image;
 
 

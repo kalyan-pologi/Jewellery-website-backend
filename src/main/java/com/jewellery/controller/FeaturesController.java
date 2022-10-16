@@ -27,11 +27,11 @@ public class FeaturesController {
     private FeaturesServiceImpl featuresServiceImpl;
     @Autowired
     private CategoryServiceImpl categoryServiceImpl;
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<List<Product>> search(@PathVariable("keyword") String keyword){
-     List<Product> products = featuresServiceImpl.search(keyword);
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
+//    @GetMapping("/search/{keyword}")
+//    public ResponseEntity<List<Product>> search(@PathVariable("keyword") String keyword){
+//     List<Product> products = featuresServiceImpl.search(keyword);
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
     @Value("${project.image}")
     private String path;
     @PostMapping("/upload")
