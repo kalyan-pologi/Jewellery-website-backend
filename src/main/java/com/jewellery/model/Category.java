@@ -1,8 +1,5 @@
 package com.jewellery.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +16,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "category_id")
 public class Category {
     @Id
     @Column(name="category_id")
@@ -33,14 +29,10 @@ public class Category {
     @Column(name="category_desc")
     private String category_desc;
 
-//    @NotNull(message = "category image is required !!")
-@Column(name="category_image")
-    private String category_image;
-
+     @Column(name = "category_image", length = 1000)
+     private byte[] category_image;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-
-//    @JsonManagedReference(value = "product-category")
     private List<Product> products = new ArrayList<>();
 
 }

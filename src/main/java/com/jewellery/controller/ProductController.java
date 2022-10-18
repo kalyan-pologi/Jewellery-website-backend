@@ -1,7 +1,6 @@
 package com.jewellery.controller;
 
 import com.jewellery.exceptions.ApiResponse;
-import com.jewellery.model.Product;
 import com.jewellery.model.ProductDto;
 import com.jewellery.service.Impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,9 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
     //post Product
-    @PostMapping("/{categoryId}/products")
-    public ResponseEntity<ProductDto> createProduct(@Valid @PathVariable Integer categoryId , @RequestBody ProductDto createProduct){
-        ProductDto product = productServiceImpl.createProduct(categoryId,createProduct);
+    @PostMapping("/{categoryId}/{imageId}/products")
+    public ResponseEntity<ProductDto> createProduct(@Valid @PathVariable Integer categoryId , @PathVariable Integer imageId, @RequestBody ProductDto createProduct){
+        ProductDto product = productServiceImpl.createProduct(categoryId,imageId, createProduct);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
     //update Product by id
@@ -50,7 +49,7 @@ public class ProductController {
     @GetMapping("/category/{categoryId}/products")
     public ResponseEntity<List<ProductDto>> getProductsByCategory(@PathVariable Integer categoryId) {
         List<ProductDto> products = this.productServiceImpl.getProductsByCategory(categoryId);
-        return new ResponseEntity<List<ProductDto>>(products, HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
 }

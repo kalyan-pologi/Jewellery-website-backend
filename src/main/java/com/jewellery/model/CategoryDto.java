@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class CategoryDto {
 
+
     @Id
     private int category_id;
 
@@ -26,6 +27,6 @@ public class CategoryDto {
     @NotNull(message = "category desc is required !!")
     private String category_desc;
 
-    //    @NotNull(message = "category image is required !!")
-    private String category_image;
+    private byte[] category_image;
+
 }

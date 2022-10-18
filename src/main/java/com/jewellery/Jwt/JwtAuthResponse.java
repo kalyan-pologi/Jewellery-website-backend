@@ -1,6 +1,5 @@
 package com.jewellery.Jwt;
 
-import com.jewellery.model.User;
 import lombok.*;
 
 

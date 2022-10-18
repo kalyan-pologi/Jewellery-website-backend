@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,10 +26,10 @@ public class ProductDto {
     @NotNull(message = "product desc is required !!")
     private String product_desc;
 
-    //    @NotNull(message = "product image is required !!")
-    private String product_image;
+    private byte[] product_image;
 
     private CategoryDto category;
 
     private List<UserDto> user;
+
 }

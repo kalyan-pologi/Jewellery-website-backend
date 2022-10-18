@@ -2,7 +2,7 @@ package com.jewellery.repository;
 
 import com.jewellery.model.Category;
 import com.jewellery.model.Product;
-import com.jewellery.model.User;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,17 +15,10 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-//    List<Product> findByProductNameContaining(String keyword);
-
-//    @Query("select p from Product p where p.product_name like :key")
-//    List<Product> findByProductNameContaining(@Param("key") String keyword);
-
-//    @Query("select p from Product p where p.category_id = :category_id")
-//    List<Product> findByCategoryId(Integer category_id);
 
     List<Product> findByCategory(Category category);
 
-    List<Product> findByUsers(User user);
+//    List<Product> findByUsers(User user);
 
 //    @Query("" SELECT product.product_id, product.product_desc, product.product_image, product.product_name FROM product_users JOIN product ON product_users.products_product_id = product.product_id where product_users.users_user_id = : userId ")
     @Query(value= "select\n" +
@@ -51,4 +44,14 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 //    @Query("delete FROM PRODUCT_USERS where PRODUCT_USERS.USER_ID= :userId and PRODUCT_USERS.PRODUCT_ID = :productId")
     void deleteFavoriteProductByUser(@Param("userId") Integer user_Id , @Param("productId") Integer product_id);
 
+
+    @Query(value = "select exists (\n" +
+            "  select *\n" +
+            "  from PRODUCT_USERS\n" +
+            "  where (\n" +
+            "    PRODUCT_USERS.USER_ID = :userId\n" +
+            "    and PRODUCT_USERS.PRODUCT_ID = :productId\n" +
+            "  )\n" +
+            ")",nativeQuery = true)
+    int isProductExistsById(@Param("userId")  Integer userId, @Param("productId") Integer productId);
 }

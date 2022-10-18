@@ -1,9 +1,9 @@
 package com.jewellery.service;
 
-import com.jewellery.model.User;
 import com.jewellery.model.UserDto;
 
 import java.util.List;
+
 
 public interface UserService {
     UserDto registerNewUser(UserDto user) throws Exception;

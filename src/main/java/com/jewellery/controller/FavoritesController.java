@@ -1,6 +1,5 @@
 package com.jewellery.controller;
 
-import com.jewellery.model.Product;
 import com.jewellery.model.ProductDto;
 import com.jewellery.service.Impl.FavoriteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,14 @@ public class FavoritesController {
     public ResponseEntity<List<ProductDto>> getAllFavoriteProductsByUser(@PathVariable String userName) throws Exception {
 
 
-        List<ProductDto> products = this.favoriteServiceImpl.getfavoriteProductsByUser(userName);
+        List<ProductDto> products = this.favoriteServiceImpl.getFavoriteProductsByUser(userName);
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userName}/{productId}")
+    public ResponseEntity<Boolean> isProductFavoriteByProductId(@PathVariable String userName ,@PathVariable Integer productId) throws Exception {
+        Boolean flag = this.favoriteServiceImpl.isProductFavoriteByProductId(userName,productId);
+        return new ResponseEntity<>(flag, HttpStatus.OK);
     }
 
     @PostMapping("/user/{userName}/{productId}/add-favorite")
@@ -34,14 +39,10 @@ public class FavoritesController {
     @PostMapping("/user/{userName}/{productId}/un-favorite")
     public void deleteFavoriteProductByUser(@PathVariable String userName, @PathVariable Integer productId) throws Exception {
         try {
-
             this.favoriteServiceImpl.deleteFavoriteProductByUser(userName, productId);
-
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
-//        String deleted = this.favoriteServiceImpl.deleteFavoriteProductByUser(userId,productId);
-//        return new ResponseEntity<>(deleted, HttpStatus.OK);
 
     }
 

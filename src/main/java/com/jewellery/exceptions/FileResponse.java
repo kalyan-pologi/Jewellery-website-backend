@@ -2,7 +2,6 @@ package com.jewellery.exceptions;
 
 
 import lombok.*;
-import org.springframework.validation.Errors;
 
 @Data
 @Getter
