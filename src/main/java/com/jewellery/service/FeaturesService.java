@@ -9,7 +9,6 @@ import java.io.IOException;
 
 public interface FeaturesService {
 
-//   public List<Product> search(String keyword);
-ResponseEntity<String> uploadImageByCategoryId (MultipartFile file) throws IOException;
-//   CategoryDto getImageByCategoryId (int id) throws FileNotFoundException;
+    ResponseEntity<String> uploadImageByCategoryId (MultipartFile file,Integer categoryId) throws IOException;
+    ResponseEntity<String> uploadImageByProductId (MultipartFile file,Integer productId) throws IOException;
 }

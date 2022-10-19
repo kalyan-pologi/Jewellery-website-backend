@@ -3,11 +3,11 @@ package com.jewellery.service.Impl;
 import com.jewellery.exceptions.ResourceNotFoundException;
 import com.jewellery.model.Category;
 
+import com.jewellery.model.Product;
 import com.jewellery.repository.CategoryRepository;
 import com.jewellery.repository.ProductRepository;
 import com.jewellery.service.FeaturesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,15 +28,20 @@ public class FeaturesServiceImpl implements FeaturesService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public ResponseEntity<String> uploadImageByCategoryId(MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadImageByCategoryId(MultipartFile file , Integer categoryId) throws IOException {
         System.out.println("Original Image Byte Size - " + file.getBytes().length);
-//        ImageModel img = new ImageModel(
-//                compressBytes(file.getBytes()));
-//        Category category = new Category(compressBytes(file.getBytes()));
-        Category category = categoryRepository.findById(1000).orElseThrow( () -> new ResourceNotFoundException("category","id", 1000));
+        Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
         category.setCategory_image(compressBytes(file.getBytes()));
         categoryRepository.save(category);
-//                imageRepository.save(img);
+        return new ResponseEntity<>("uploaded" , HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> uploadImageByProductId(MultipartFile file, Integer productId) throws IOException {
+        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        Product product = productRepository.findById(productId).orElseThrow( () -> new ResourceNotFoundException("product","id", productId));
+        product.setProduct_image(compressBytes(file.getBytes()));
+        productRepository.save(product);
         return new ResponseEntity<>("uploaded" , HttpStatus.OK);
     }
 
@@ -50,9 +55,7 @@ public class FeaturesServiceImpl implements FeaturesService {
 
 
     // compress the image bytes before storing it in the database
-
-
-    public static byte[] compressBytes(byte[] data) {
+    public byte[] compressBytes(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setInput(data);
         deflater.finish();
@@ -73,8 +76,8 @@ public class FeaturesServiceImpl implements FeaturesService {
     }
 
     // uncompress the image bytes before returning it to the angular application
-    @Bean
-    public static byte[] decompressBytes(byte[] data) {
+
+    public byte[] decompressBytes(byte[] data) {
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);

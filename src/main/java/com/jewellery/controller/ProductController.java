@@ -28,9 +28,9 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
     //post Product
-    @PostMapping("/{categoryId}/{imageId}/products")
-    public ResponseEntity<ProductDto> createProduct(@Valid @PathVariable Integer categoryId , @PathVariable Integer imageId, @RequestBody ProductDto createProduct){
-        ProductDto product = productServiceImpl.createProduct(categoryId,imageId, createProduct);
+    @PostMapping("/{categoryId}/products")
+    public ResponseEntity<ProductDto> createProduct(@Valid @PathVariable Integer categoryId , @RequestBody ProductDto createProduct){
+        ProductDto product = productServiceImpl.createProduct(categoryId, createProduct);
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
     //update Product by id

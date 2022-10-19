@@ -13,7 +13,6 @@ public interface CategoryService{
      CategoryDto getCategoryById(Integer categoryId);
 
     //post category
-//    public CategoryDto createCategory(CategoryDto createCategory, Integer imageId);
      CategoryDto createCategory(CategoryDto createCategory);
 
     //update category by id

@@ -30,13 +30,6 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler impl
         return new ResponseEntity<>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(UserNotFoundException.class)
-//    public ResponseEntity<ApiResponse> userNotFoundExceptionHandler(UserNotFoundException ex) {
-//        String message = ex.getMessage();
-//        ApiResponse apiResponse = new ApiResponse(message, false);
-//        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
-//    }
-
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         Map<String,String> resp = new HashMap<>();

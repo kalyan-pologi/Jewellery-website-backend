@@ -17,9 +17,13 @@ public class FeaturesController {
     private FeaturesServiceImpl featuresServiceImpl;
 
 
-    @PostMapping(value = "/upload",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> uploadImageByCategoryId(@RequestParam("image") MultipartFile file) throws IOException {
-        return featuresServiceImpl.uploadImageByCategoryId(file);
+    @PostMapping(value = "/upload/category/{categoryId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> uploadImageByCategoryId(@RequestParam("image") MultipartFile file , @PathVariable("categoryId") Integer categoryId) throws IOException {
+        return featuresServiceImpl.uploadImageByCategoryId(file,categoryId);
+    }
+    @PostMapping(value = "/upload/product/{productId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> uploadImageByProductId(@RequestParam("image") MultipartFile file, @PathVariable("productId") Integer productId) throws IOException {
+        return featuresServiceImpl.uploadImageByProductId(file,productId);
     }
 
 //    @GetMapping(value = "/get/{id}",produces = MediaType.APPLICATION_JSON_VALUE)

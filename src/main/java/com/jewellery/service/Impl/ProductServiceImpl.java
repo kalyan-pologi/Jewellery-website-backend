@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,13 @@ public class ProductServiceImpl implements ProductService {
     private FeaturesServiceImpl featuresServiceImpl;
     @Override
     public List<ProductDto> getProducts() {
-        List<Product> productList = productRepository.findAll();
+        List<Product> getProductList = productRepository.findAll();
+        List<Product> productList = new ArrayList<>();
+        for(Product product : getProductList){
+            byte[] image = product.getProduct_image();
+            product.setProduct_image(featuresServiceImpl.decompressBytes(image));
+            productList.add(product);
+        }
         List<ProductDto> productDtos = productList.stream().map((post) -> this.modelMapper.map(post, ProductDto.class))
                 .collect(Collectors.toList());
         return productDtos;
@@ -45,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ProductDto createProduct(Integer categoryId , Integer imageId,  ProductDto createProduct) {
+    public ProductDto createProduct(Integer categoryId , ProductDto createProduct) {
         Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
         Product product = this.modelMapper.map(createProduct,Product.class);
         product.setCategory(category);;
@@ -76,7 +83,13 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDto> getProductsByCategory(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
         List<Product> products = productRepository.findByCategory(category);
-        List<ProductDto> productDtos = products.stream().map((post) -> this.modelMapper.map(post, ProductDto.class))
+        List<Product> productList = new ArrayList<>();
+        for(Product product : products){
+            byte[] image = product.getProduct_image();
+            product.setProduct_image(featuresServiceImpl.decompressBytes(image));
+            productList.add(product);
+        }
+        List<ProductDto> productDtos = productList.stream().map((post) -> this.modelMapper.map(post, ProductDto.class))
                 .collect(Collectors.toList());
         return productDtos;
     }

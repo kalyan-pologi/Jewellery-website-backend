@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,12 +48,6 @@ public class UserServiceImpl implements UserService {
         return userDtos;
     }
     @Override
-    public UserDto getUserById(Integer userId) {
-        User user = this.userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", " Id ", userId));
-        return this.userToDto(user);
-    }
-    @Override
     public UserDto createUser(UserDto userDto) {
         User user = this.dtoToUser(userDto);
         User savedUser = this.userRepository.save(user);
@@ -69,6 +64,9 @@ public class UserServiceImpl implements UserService {
         UserDto userDto1 = this.userToDto(updatedUser);
         return userDto1;
     }
+
+
+
     @Override
     public void deleteUser(Integer userId) {
         User user = this.userRepository.findById(userId)
@@ -78,17 +76,17 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public UserDto registerNewUser(UserDto userDto) throws Exception {
-//            UserDetails userDetails = customUserDetailService.loadUserByUsername(user.getUser_email());
-//            if(userDetails.getUsername().equals(user.getUser_email())){
-//                 throw new Exception("user already exits...please login");
-//            }
-
-        User user = this.modelMapper.map(userDto, User.class);
-        // encoded the password
-        user.setUser_password(this.passwordEncoder.encode(user.getUser_password()));
-        // add roles if needed
-        User newUser = this.userRepository.save(user);
-
-        return this.modelMapper.map(newUser, UserDto.class);
+       Optional<User> user1 =  userRepository.findByEmail(userDto.getUser_email());
+       if(user1.isPresent()){
+           throw new Exception("Email already exits...please login");
+       }
+       else {
+           User user = this.modelMapper.map(userDto, User.class);
+           // encoded the password
+           user.setUser_password(this.passwordEncoder.encode(user.getUser_password()));
+           // add roles if needed
+           User newUser = this.userRepository.save(user);
+           return this.modelMapper.map(newUser, UserDto.class);
+       }
     }
 }

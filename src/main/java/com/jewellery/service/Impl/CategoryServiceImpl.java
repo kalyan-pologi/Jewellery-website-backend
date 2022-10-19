@@ -9,12 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -34,7 +31,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getAllCategories() {
         List<Category> getCategoryList = categoryRepository.findAll();
-        List<CategoryDto> catDtos = getCategoryList.stream().map( (cat) -> this.modelMapper.map(cat, CategoryDto.class))
+        List<Category> categoryList = new ArrayList<>();
+        for(Category category : getCategoryList){
+            byte[] image = category.getCategory_image();
+            category.setCategory_image(featuresServiceImpl.decompressBytes(image));
+            categoryList.add(category);
+        }
+
+        List<CategoryDto> catDtos = categoryList.stream().map( (cat) -> this.modelMapper.map(cat, CategoryDto.class))
                 .collect(Collectors.toList());
         return catDtos;
     }
@@ -46,14 +50,6 @@ public class CategoryServiceImpl implements CategoryService {
         return this.modelMapper.map(category,CategoryDto.class);
     }
 
-//    @Override
-//    public CategoryDto createCategory(CategoryDto createCategory, Integer imageId) {
-////        ImageModel imageModel = imageRepository.findById(imageId).orElseThrow( () -> new ResourceNotFoundException("image","id", imageId));
-//        Category cat = this.modelMapper.map(createCategory, Category.class);
-////        cat.setCategory_image(imageModel);
-//        Category addedCat = this.categoryRepository.save(cat);
-//        return this.modelMapper.map(addedCat, CategoryDto.class);
-//    }
     @Override
     public CategoryDto createCategory(CategoryDto createCategory) {
         Category cat = this.modelMapper.map(createCategory, Category.class);

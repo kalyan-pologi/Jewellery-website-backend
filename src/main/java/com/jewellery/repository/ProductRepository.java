@@ -18,17 +18,14 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findByCategory(Category category);
 
-//    List<Product> findByUsers(User user);
-
-//    @Query("" SELECT product.product_id, product.product_desc, product.product_image, product.product_name FROM product_users JOIN product ON product_users.products_product_id = product.product_id where product_users.users_user_id = : userId ")
     @Query(value= "select\n" +
             "  PRODUCT.PRODUCT_ID,\n" +
             "  PRODUCT.PRODUCT_DESC,\n" +
             "  PRODUCT.PRODUCT_IMAGE,\n" +
             "  PRODUCT.PRODUCT_NAME,\n" +
             "  PRODUCT.CATEGORY_ID\n" +
-            "from PRODUCT_USERS\n" +
-            "  join PRODUCT\n" +
+            "from PRODUCT\n" +
+            "  join PRODUCT_USERS\n" +
             "    on PRODUCT_USERS.PRODUCT_ID = PRODUCT.PRODUCT_ID\n" +
             "where PRODUCT_USERS.USER_ID = :userId", nativeQuery=true)
     List<Product> findProductsByUsersId(@Param("userId") Integer userId);
@@ -41,7 +38,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "  PRODUCT_USERS.USER_ID = :userId\n" +
             "  and PRODUCT_USERS.PRODUCT_ID = :productId\n" +
             ")", nativeQuery=true)
-//    @Query("delete FROM PRODUCT_USERS where PRODUCT_USERS.USER_ID= :userId and PRODUCT_USERS.PRODUCT_ID = :productId")
     void deleteFavoriteProductByUser(@Param("userId") Integer user_Id , @Param("productId") Integer product_id);
 
 
