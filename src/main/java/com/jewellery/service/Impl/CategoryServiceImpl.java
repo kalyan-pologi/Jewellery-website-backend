@@ -27,27 +27,30 @@ public class CategoryServiceImpl implements CategoryService {
     private ModelMapper modelMapper;
 
 
-
     @Override
-    public List<CategoryDto> getAllCategories() {
-        List<Category> getCategoryList = categoryRepository.findAll();
-        List<Category> categoryList = new ArrayList<>();
-        for(Category category : getCategoryList){
-            byte[] image = category.getCategory_image();
-            category.setCategory_image(featuresServiceImpl.decompressBytes(image));
-            categoryList.add(category);
+    public List<CategoryDto> getAllCategories() throws Exception {
+        try {
+            List<Category> getCategoryList = categoryRepository.findAll();
+            List<Category> categoryList = new ArrayList<>();
+            for (Category category : getCategoryList) {
+                byte[] image = category.getCategory_image();
+                category.setCategory_image(featuresServiceImpl.decompressBytes(image));
+                categoryList.add(category);
+            }
+            List<CategoryDto> catDtos = categoryList.stream().map((cat) -> this.modelMapper.map(cat, CategoryDto.class))
+                    .collect(Collectors.toList());
+            return catDtos;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
-
-        List<CategoryDto> catDtos = categoryList.stream().map( (cat) -> this.modelMapper.map(cat, CategoryDto.class))
-                .collect(Collectors.toList());
-        return catDtos;
     }
+
     @Override
     public CategoryDto getCategoryById(Integer categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category", "id", categoryId));
         byte[] image = category.getCategory_image();
         category.setCategory_image(featuresServiceImpl.decompressBytes(image));
-        return this.modelMapper.map(category,CategoryDto.class);
+        return this.modelMapper.map(category, CategoryDto.class);
     }
 
     @Override
@@ -56,18 +59,20 @@ public class CategoryServiceImpl implements CategoryService {
         Category addedCat = this.categoryRepository.save(cat);
         return this.modelMapper.map(addedCat, CategoryDto.class);
     }
+
     @Override
     public CategoryDto updateCategoryById(CategoryDto updateCategory, Integer CategoryId) {
-        Category category = categoryRepository.findById(CategoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", CategoryId));
+        Category category = categoryRepository.findById(CategoryId).orElseThrow(() -> new ResourceNotFoundException("category", "id", CategoryId));
         category.setCategory_id(updateCategory.getCategory_id());
         category.setCategory_desc(updateCategory.getCategory_desc());
         category.setCategory_name(updateCategory.getCategory_name());
         Category updatedcat = this.categoryRepository.save(category);
-        return this.modelMapper.map(updatedcat,CategoryDto.class);
+        return this.modelMapper.map(updatedcat, CategoryDto.class);
     }
+
     @Override
     public List<CategoryDto> deleteCategoryById(Integer categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElseThrow( () -> new ResourceNotFoundException("category","id", categoryId));
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category", "id", categoryId));
         categoryRepository.delete(category);
         List<Category> getCategoryList = categoryRepository.findAll();
         List<CategoryDto> catDtos = getCategoryList.stream().map((cat) -> this.modelMapper.map(cat, CategoryDto.class))

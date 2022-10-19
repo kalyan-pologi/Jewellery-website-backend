@@ -7,7 +7,7 @@ import java.util.List;
 public interface CategoryService{
 
     //get all categories
-     List<CategoryDto> getAllCategories();
+     List<CategoryDto> getAllCategories() throws Exception;
 
     //get category by id
      CategoryDto getCategoryById(Integer categoryId);

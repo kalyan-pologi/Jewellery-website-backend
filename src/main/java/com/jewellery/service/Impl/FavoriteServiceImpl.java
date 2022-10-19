@@ -48,7 +48,7 @@ public class FavoriteServiceImpl implements FavoriteService {
                     .collect(Collectors.toList());
             return productDtos;
         } catch (Exception e) {
-            throw new Exception(e);
+            throw new Exception(e.getMessage());
         }
     }
 

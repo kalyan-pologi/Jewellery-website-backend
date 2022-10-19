@@ -42,10 +42,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-        List<User> users = this.userRepository.findAll();
-        List<UserDto> userDtos = users.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
-        return userDtos;
+    public List<UserDto> getAllUsers() throws Exception {
+        try {
+            List<User> users = this.userRepository.findAll();
+            List<UserDto> userDtos = users.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
+            return userDtos;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
     }
     @Override
     public UserDto createUser(UserDto userDto) {

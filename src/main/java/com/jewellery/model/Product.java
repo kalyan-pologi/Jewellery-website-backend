@@ -28,7 +28,7 @@ public class Product {
     @Column(name = "product_desc")
     private String product_desc;
 
-    @Column(name = "product_image", length = 1000)
+    @Column(name = "product_image", length = 2000)
     private byte[] product_image;
 
     //    @JsonIgnore

@@ -17,7 +17,7 @@ public class ProductController {
     private ProductServiceImpl productServiceImpl;
     //get all Products
     @GetMapping("/products")
-    public ResponseEntity<List<ProductDto>> getAllProducts(){
+    public ResponseEntity<List<ProductDto>> getAllProducts() throws Exception {
         List<ProductDto> productList = productServiceImpl.getProducts();
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }

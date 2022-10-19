@@ -24,7 +24,7 @@ public class CategoryController {
 
     //get all categories
     @GetMapping("/")
-    public ResponseEntity<List<CategoryDto>> getAllCategories(){
+    public ResponseEntity<List<CategoryDto>> getAllCategories() throws Exception {
         List<CategoryDto> categoryList = categoryServiceImpl.getAllCategories();
         return new ResponseEntity<>(categoryList, HttpStatus.OK);
     }

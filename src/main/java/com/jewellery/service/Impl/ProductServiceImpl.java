@@ -30,17 +30,21 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private FeaturesServiceImpl featuresServiceImpl;
     @Override
-    public List<ProductDto> getProducts() {
-        List<Product> getProductList = productRepository.findAll();
-        List<Product> productList = new ArrayList<>();
-        for(Product product : getProductList){
-            byte[] image = product.getProduct_image();
-            product.setProduct_image(featuresServiceImpl.decompressBytes(image));
-            productList.add(product);
+    public List<ProductDto> getProducts() throws Exception {
+        try {
+            List<Product> getProductList = productRepository.findAll();
+            List<Product> productList = new ArrayList<>();
+            for (Product product : getProductList) {
+                byte[] image = product.getProduct_image();
+                product.setProduct_image(featuresServiceImpl.decompressBytes(image));
+                productList.add(product);
+            }
+            List<ProductDto> productDtos = productList.stream().map((post) -> this.modelMapper.map(post, ProductDto.class))
+                    .collect(Collectors.toList());
+            return productDtos;
+        }catch (Exception e){
+            throw new Exception(e.getMessage());
         }
-        List<ProductDto> productDtos = productList.stream().map((post) -> this.modelMapper.map(post, ProductDto.class))
-                .collect(Collectors.toList());
-        return productDtos;
     }
     @Override
     public ProductDto getProductById(Integer productId) {
