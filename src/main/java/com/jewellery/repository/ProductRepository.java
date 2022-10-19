@@ -19,34 +19,34 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     List<Product> findByCategory(Category category);
 
     @Query(value= "select\n" +
-            "  PRODUCT.PRODUCT_ID,\n" +
-            "  PRODUCT.PRODUCT_DESC,\n" +
-            "  PRODUCT.PRODUCT_IMAGE,\n" +
-            "  PRODUCT.PRODUCT_NAME,\n" +
-            "  PRODUCT.CATEGORY_ID\n" +
-            "from PRODUCT\n" +
-            "  join PRODUCT_USERS\n" +
-            "    on PRODUCT_USERS.PRODUCT_ID = PRODUCT.PRODUCT_ID\n" +
-            "where PRODUCT_USERS.USER_ID = :userId", nativeQuery=true)
+            "  product.product_id,\n" +
+            "  product.product_desc,\n" +
+            "  product.product_name,\n" +
+            "  product.product_image,\n" +
+            "  product.category_id\n" +
+            "from product\n" +
+            "  join product_users\n" +
+            "    on product_users.product_id = product.product_id\n" +
+            "where product_users.user_id = :userId", nativeQuery=true)
     List<Product> findProductsByUsersId(@Param("userId") Integer userId);
 
 
     @Modifying
     @Transactional
-    @Query(value = "delete from PRODUCT_USERS\n" +
+    @Query(value = "delete from product_users\n" +
             "where (\n" +
-            "  PRODUCT_USERS.USER_ID = :userId\n" +
-            "  and PRODUCT_USERS.PRODUCT_ID = :productId\n" +
+            "  product_users.user_id = :userId\n" +
+            "  and product_users.product_id = :productId\n" +
             ")", nativeQuery=true)
     void deleteFavoriteProductByUser(@Param("userId") Integer user_Id , @Param("productId") Integer product_id);
 
 
     @Query(value = "select exists (\n" +
             "  select *\n" +
-            "  from PRODUCT_USERS\n" +
+            "  from product_users\n" +
             "  where (\n" +
-            "    PRODUCT_USERS.USER_ID = :userId\n" +
-            "    and PRODUCT_USERS.PRODUCT_ID = :productId\n" +
+            "    product_users.user_id = :userId\n" +
+            "    and product_users.product_id = :productId\n" +
             "  )\n" +
             ")",nativeQuery = true)
     int isProductExistsById(@Param("userId")  Integer userId, @Param("productId") Integer productId);
